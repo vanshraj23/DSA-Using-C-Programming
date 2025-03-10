@@ -78,8 +78,7 @@ stack* createStack(void)
     if (initStack(newStack))  // Initalizing the stack.
     {
         return newStack;
-    }
-    
+    } 
     return NULL;
 }
 

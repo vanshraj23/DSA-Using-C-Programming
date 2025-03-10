@@ -98,7 +98,6 @@ bool initNode(node* currentNode,DATA_TYPE value)
     return false;
 }
 
-
 // Fuction to create the stack dynamicallly.
 stack* createStack(void)
 {

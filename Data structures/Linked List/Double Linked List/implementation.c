@@ -94,12 +94,8 @@ node* createNode(DATA_TYPE value)
 {
     node* newNode = (node*)malloc(sizeof(node));
     
-    if (newNode)   // Initializing the node.
+    if (initNode(newNode,value))   // Initializing the node.
     {
-        newNode->data = value;
-        newNode->prev = NULL;
-        newNode->next = NULL;
-        
         return newNode;
     }
     return NULL;
