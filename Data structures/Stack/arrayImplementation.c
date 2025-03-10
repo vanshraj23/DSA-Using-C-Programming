@@ -23,6 +23,7 @@ typedef struct STACK {
 
 // Function prototypes.
 stack* createStack(void);
+bool initStack(stack*);
 bool isEmptyStack(const stack*);
 bool isFullStack(const stack*);
 bool push(stack*,DATA_TYPE);
@@ -34,7 +35,7 @@ int main(void)
 {
     // dynamic create of the stack.
     stack* newStack = createStack();
-
+    
     if (!newStack)
     {
         fprintf(stderr,"Memory allocation for stack failed!\n");
@@ -55,7 +56,7 @@ int main(void)
     while (!isEmptyStack(newStack))
     {
         fprintf(stdout,"%d\n",peek(newStack));
-
+        
         if (!pop(newStack))
         {
             fprintf(stderr,"Couldn't pop %d out from the stack!\n",peek(newStack));
@@ -65,7 +66,7 @@ int main(void)
     
     // deleting the stack.
     deleteStack(&newStack);
-
+    
     return EXIT_SUCCESS;
 }
 
@@ -74,18 +75,27 @@ stack* createStack(void)
 {
     stack* newStack = (stack*)malloc(sizeof(stack));
     
-    if (newStack)  // Initalizing the stack.
+    if (initStack(newStack))  // Initalizing the stack.
     {
-        for (int i = 0; i < MAX_SIZE; ++i)
-        {
-            newStack->data[i] = DEFAULT_VALUE;
-        }
-        newStack->top = INITIAL_INDEX;
-
         return newStack;
     }
     
     return NULL;
+}
+
+bool initStack(stack* currentStack)
+{
+    if (currentStack)
+    {
+        for (int i = 0; i < MAX_SIZE; ++i)
+        {
+            currentStack->data[i] = DEFAULT_VALUE;
+        }
+        currentStack->top = INITIAL_INDEX;
+
+        return true;
+    }
+    return false;
 }
 
 // Function to check stack is empty or not.

@@ -24,7 +24,9 @@ typedef struct SingleLinkedList {
 
 // Functions prototypes
 node* createNode(DATA_TYPE);
+bool initNode(node*,DATA_TYPE);
 sll* createList(void);
+bool initList(sll*);
 bool addAtHead(sll*,DATA_TYPE);
 bool addAtTail(sll*,DATA_TYPE);
 bool deleteAtHead(sll*);
@@ -37,7 +39,7 @@ int main(void)
 {
     // dyanmic list creation.
     sll* newList = createList();
-
+    
     if (!newList)
     {
         fprintf(stderr,"Memory allocation failed for the List!\n");
@@ -77,7 +79,7 @@ int main(void)
     
     // deleting entire list.
     deleteList(&newList);
-
+    
     return EXIT_SUCCESS;
 }
 
@@ -86,14 +88,24 @@ node* createNode(DATA_TYPE value)
 {
     node* newNode = (node*)malloc(sizeof(node));
     
-    if (newNode)
+    if (initNode(newNode,value))
     {
-        newNode->data = value;
-        newNode->link = NULL;
-        
         return newNode;
     }
     return NULL;
+}
+
+// Function to initialise the node.
+bool initNode(node* currentNode,DATA_TYPE value)
+{
+    if (currentNode)
+    {
+        currentNode->data = value;
+        currentNode->link = NULL;
+        
+        return true;
+    }
+    return false;
 }
 
 // Function to create list dynamically.
@@ -101,13 +113,23 @@ sll* createList(void)
 {
     sll* newList = (sll*)malloc(sizeof(sll));
     
-    if (newList)
-    {
-        newList->head = NULL;
-        
+    if (initList(newList))
+    {        
         return newList;
     }
     return NULL;
+}
+
+// Function to initialise the List.
+bool initList(sll* currentList)
+{
+    if (currentList)
+    {
+        currentList->head = NULL;
+
+        return true;
+    }
+    return false;
 }
 
 // Function to add at the head of the list.

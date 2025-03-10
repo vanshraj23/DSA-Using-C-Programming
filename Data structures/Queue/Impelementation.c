@@ -25,7 +25,9 @@ typedef struct QUEUE {
 
 // Function prototypes.
 node* createNode(DATA_TYPE);
+bool initNode(node*,DATA_TYPE);
 queue* createQueue(void);
+bool initQueue(queue*);
 bool isEmptyQueue(const queue*);
 bool enQueue(queue*,DATA_TYPE);
 bool deQueue(queue*);
@@ -36,7 +38,7 @@ int main(void)
 {
     // dynamic createion of queue.
     queue* newQueue = createQueue();
-
+    
     if (!newQueue)
     {
         fprintf(stderr,"Memory Allcation for the Queue failed!\n");
@@ -57,17 +59,17 @@ int main(void)
     while (!isEmptyQueue(newQueue))
     {
         fprintf(stdout,"%d ",peekFront(newQueue));
-
+        
         if (!deQueue(newQueue))
         {
             fprintf(stderr,"Couldn't dequeue from the queue!\n");
             break;
         }   
     }
-
+    
     // deleting the queue.
     deleteQueue(&newQueue);
-
+    
     return EXIT_SUCCESS;
 }
 
@@ -76,14 +78,24 @@ node* createNode(DATA_TYPE value)
 {
     node* newNode = (node*)malloc(sizeof(node));
     
-    if (newNode)   // Initializing the node. 
+    if (initNode(newNode,value))   // Initializing the node. 
     {
-        newNode->data = value;
-        newNode->link = NULL;
-        
         return newNode;
     }
     return NULL;
+}
+
+// Function to initialize the Node.
+bool initNode(node* currentNode,DATA_TYPE value)
+{
+    if (currentNode)
+    {
+        currentNode->data = value;
+        currentNode->link = NULL;
+        
+        return true;
+    }
+    return false;   
 }
 
 // Fuction to create the Queue dynamicallly.
@@ -91,14 +103,24 @@ queue* createQueue(void)
 {
     queue* newQueue = (queue*)malloc(sizeof(queue));
     
-    if (newQueue)   // Initializing the Queue.
+    if (initQueue(newQueue))   // Initializing the Queue.
     {
-        newQueue->front = NULL;
-        newQueue->rear  = NULL;
-        
         return newQueue;
     }
     return NULL;
+}
+
+// Function to initialize the Queue.
+bool initQueue(queue* currentQueue)
+{
+    if (currentQueue)
+    {
+        currentQueue->front = NULL;
+        currentQueue->rear  = NULL;
+
+        return true;
+    }
+    return false;
 }
 
 // Function to check Queue is empty or not.

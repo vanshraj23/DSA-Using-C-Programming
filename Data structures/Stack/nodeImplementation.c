@@ -25,7 +25,9 @@ typedef struct STACK {
 
 // Function prototypes. 
 node* createNode(DATA_TYPE);
+bool initNode(node*,DATA_TYPE);
 stack* createStack(void);
+bool initStack(stack*);
 bool isEmptyStack(const stack*);
 bool push(stack*,DATA_TYPE);
 bool pop(stack*);
@@ -76,28 +78,49 @@ node* createNode(DATA_TYPE value)
 {
     node* newNode = (node*)malloc(sizeof(node));
 
-    if (newNode)  // Initializing the node. 
+    if (initNode(newNode,value))  // Initializing the node. 
     {
-        newNode->data = value;
-        newNode->link = NULL;
-    
         return newNode;
     }
     return NULL;
 }
+
+// Function to initialize the node.
+bool initNode(node* currentNode,DATA_TYPE value)
+{   
+    if (currentNode)
+    {
+        currentNode->data = value;
+        currentNode->link = NULL;
+
+        return true;
+    }
+    return false;
+}
+
 
 // Fuction to create the stack dynamicallly.
 stack* createStack(void)
 {
     stack* newStack = (stack*)malloc(sizeof(stack));
     
-    if (newStack)  // Initializing the stack.
-    {
-        newStack->top = INITIAL_INDEX;
-        
+    if (initStack(newStack))  // Initializing the stack.
+    {        
         return newStack;
     }  
     return NULL;
+}
+
+// Function to initialize the stack.
+bool initStack(stack* currentStack)
+{
+    if (currentStack)
+    {
+        currentStack->top = INITIAL_INDEX;
+
+        return true;
+    }
+    return false;
 }
 
 // Function to check stack is empty or not.

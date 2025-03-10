@@ -23,6 +23,7 @@ typedef struct QUEUE {
 
 // Function Prototypes.
 queue* createQueue(void);
+bool initQueue(queue*);
 bool isEmptyQueue(const queue*);
 bool isFullQueue(const queue*);
 bool enQueue(queue*, DATA_TYPE);
@@ -74,19 +75,29 @@ queue* createQueue(void)
 {
     queue* newQueue = (queue*)malloc(sizeof(queue));
     
-    if (newQueue)   // Initializing the Queue.
+    if (initQueue(newQueue))   // Initializing the Queue.
     {
-        for (int i = 0; i < MAX_SIZE; i++)
-        {
-            newQueue->data[i] = DEFAULT_VALUE;
-        }
-        newQueue->front = INITIAL_INDEX;
-        newQueue->rear  = INITIAL_INDEX;
-        
         return newQueue;
     }
     
     return NULL;
+}
+
+// Function to initialize the Queue.
+bool initQueue(queue* currentQueue)
+{
+    if (currentQueue)
+    {
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+            currentQueue->data[i] = DEFAULT_VALUE;
+        }
+        currentQueue->front = INITIAL_INDEX;
+        currentQueue->rear  = INITIAL_INDEX;
+
+        return true;
+    }
+    return false;
 }
 
 // Function to check Queue is empty or not.

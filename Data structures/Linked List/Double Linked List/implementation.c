@@ -26,7 +26,9 @@ typedef struct DoubleLinkedList {
 
 // Funbction protoypes.
 node* createNode(DATA_TYPE);
+bool initList(dll*);
 dll* createList(void);
+bool initNode(node*,DATA_TYPE);
 bool addAtHead(dll*,DATA_TYPE);
 bool addAtTail(dll*,DATA_TYPE);
 bool deleteAtHead(dll*);
@@ -103,19 +105,43 @@ node* createNode(DATA_TYPE value)
     return NULL;
 }
 
+// Function to initialize the node
+bool initNode(node* currentNode,DATA_TYPE value)
+{
+    if (currentNode)
+    {
+        currentNode->prev = NULL;
+        currentNode->data = value;
+        currentNode->next = NULL;
+
+        return true;
+    }
+    return false;
+}
+
 // Function to create list dynamically.
 dll* createList(void)
 {
     dll* newList = (dll*)malloc(sizeof(dll));
     
-    if (newList)  // Initializing the list.
+    if (initList(newList))  // Initializing the list.
     {
-        newList->head = NULL;
-        newList->tail = NULL;
-        
         return newList;
     }
     return NULL;
+}
+
+// Finction to initialize the list
+bool initList(dll* currentList)
+{
+    if (currentList)
+    {
+        currentList->head = NULL;
+        currentList->tail = NULL;
+
+        return true;
+    }
+    return false;
 }
 
 // Function to add at the head of list.
